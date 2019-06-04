@@ -1,0 +1,243 @@
+[
+    {
+        "id": "3e75db64.2c4b14",
+        "type": "tab",
+        "label": "Flow 6",
+        "disabled": false,
+        "info": "Working flow"
+    },
+    {
+        "id": "a9c28a73.a85cd8",
+        "type": "grove digital sensor",
+        "z": "3e75db64.2c4b14",
+        "name": "GetTemp_Hum",
+        "board": "d4bdb801.7acbb8",
+        "sensor": "dht11",
+        "repeat": "45",
+        "pin": "3",
+        "x": 107,
+        "y": 69,
+        "wires": [
+            [
+                "a571fe39.3f35e"
+            ]
+        ]
+    },
+    {
+        "id": "a571fe39.3f35e",
+        "type": "function",
+        "z": "3e75db64.2c4b14",
+        "name": "Temp_Hum",
+        "func": "msg.payload = '{ \"temperature\":'+ msg.payload.temperature + ',\"humidity\": ' + msg.payload.humidity + '}';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 182,
+        "y": 189,
+        "wires": [
+            [
+                "5a71f9a8.c81488",
+                "925a2cc9.3b254",
+                "6326441e.51b36c"
+            ]
+        ]
+    },
+    {
+        "id": "925a2cc9.3b254",
+        "type": "debug",
+        "z": "3e75db64.2c4b14",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 374,
+        "y": 175,
+        "wires": []
+    },
+    {
+        "id": "48663508.5d056c",
+        "type": "grove analog sensor",
+        "z": "3e75db64.2c4b14",
+        "name": "GetMoisture",
+        "pin": "0",
+        "sensor": "sound",
+        "repeat": "45",
+        "board": "d4bdb801.7acbb8",
+        "x": 90,
+        "y": 268,
+        "wires": [
+            [
+                "a1dcad14.90a79",
+                "21913409.c20c1c"
+            ]
+        ]
+    },
+    {
+        "id": "a1dcad14.90a79",
+        "type": "function",
+        "z": "3e75db64.2c4b14",
+        "name": "moisture",
+        "func": "msg.payload = '{\"moisture\":'+ msg.payload + '}';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 136,
+        "y": 344,
+        "wires": [
+            [
+                "f3d812dc.79e74",
+                "5a71f9a8.c81488"
+            ]
+        ]
+    },
+    {
+        "id": "f3d812dc.79e74",
+        "type": "debug",
+        "z": "3e75db64.2c4b14",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 372,
+        "y": 267,
+        "wires": []
+    },
+    {
+        "id": "6326441e.51b36c",
+        "type": "cloudant out",
+        "z": "3e75db64.2c4b14",
+        "name": "Link2db",
+        "cloudant": "ef67a179.6e79e",
+        "database": "finaldb",
+        "service": "_ext_",
+        "payonly": true,
+        "operation": "insert",
+        "x": 376,
+        "y": 79,
+        "wires": []
+    },
+    {
+        "id": "5a71f9a8.c81488",
+        "type": "join",
+        "z": "3e75db64.2c4b14",
+        "name": "",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "1",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 315,
+        "y": 421,
+        "wires": [
+            [
+                "c002778a.970818"
+            ]
+        ]
+    },
+    {
+        "id": "c002778a.970818",
+        "type": "debug",
+        "z": "3e75db64.2c4b14",
+        "name": "All Data",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 282,
+        "y": 481,
+        "wires": []
+    },
+    {
+        "id": "b12aabd9.0fadb8",
+        "type": "speakerpi-output",
+        "z": "3e75db64.2c4b14",
+        "choose": "filebased",
+        "filename": "",
+        "channels": "1",
+        "bitdepth": "8",
+        "samplerate": "11025",
+        "name": "",
+        "x": 562,
+        "y": 390,
+        "wires": []
+    },
+    {
+        "id": "726639da.3eeb68",
+        "type": "play audio",
+        "z": "3e75db64.2c4b14",
+        "name": "",
+        "voice": "",
+        "x": 582,
+        "y": 451,
+        "wires": []
+    },
+    {
+        "id": "21913409.c20c1c",
+        "type": "ui_gauge",
+        "z": "3e75db64.2c4b14",
+        "name": "",
+        "group": "31095fa6.2ec78",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "compass",
+        "title": "Moist_value",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 404,
+        "y": 331,
+        "wires": []
+    },
+    {
+        "id": "d4bdb801.7acbb8",
+        "type": "board-config",
+        "z": "",
+        "board": "GrovePi"
+    },
+    {
+        "id": "ef67a179.6e79e",
+        "type": "cloudant",
+        "z": "",
+        "host": "7c204e79-98a4-4849-8110-460f48319c73-bluemix.cloudant.com",
+        "name": "FinalDB"
+    },
+    {
+        "id": "31095fa6.2ec78",
+        "type": "ui_group",
+        "z": "",
+        "name": "Temp_Hum",
+        "tab": "48b9a1d9.fa34e",
+        "disp": true,
+        "width": "6",
+        "collapse": true
+    },
+    {
+        "id": "48b9a1d9.fa34e",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Home",
+        "icon": "dashboard"
+    }
+]
